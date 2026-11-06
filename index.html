@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pennywise | Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <h2 class="logo">Pennywise<span>.</span></h2>
+
+            <p class="menu-title">MENU</p>
+
+            <nav>
+                <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+                <a href="#transactions" class="nav-link">↔ Transactions</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <p>PERSONAL EXPENSE TRACKER</p>
+                <small>Manage your money wisely.</small>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" id="dashboard">
+
+            <!-- HEADER -->
+            <header class="topbar">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p class="subtitle">Welcome back! Here's your expense overview.</p>
+                </div>
+
+                <button class="primary-btn" id="openModalBtn">
+                    + Add Expense
+                </button>
+            </header>
+
+            <!-- SUMMARY CARDS -->
+            <section class="summary-grid">
+
+                <div class="summary-card total-card">
+                    <div class="card-top">
+                        <p>Total Expenses</p>
+                        <span class="card-icon">₹</span>
+                    </div>
+                    <h2 id="totalAmount">₹0.00</h2>
+                    <span>All recorded expenses</span>
+                </div>
+
+                <div class="summary-card">
+                    <div class="card-top">
+                        <p>Total Transactions</p>
+                        <span class="card-icon blue-icon">↗</span>
+                    </div>
+                    <h2 id="totalCount">0</h2>
+                    <span>Recorded transactions</span>
+                </div>
+
+                <div class="summary-card">
+                    <div class="card-top">
+                        <p>Highest Expense</p>
+                        <span class="card-icon orange-icon">★</span>
+                    </div>
+                    <h2 id="highestExpense">₹0.00</h2>
+                    <span>Largest recorded transaction</span>
+                </div>
+
+            </section>
+
+            <!-- CATEGORY BREAKDOWN AND MONTHLY CHART -->
+            <section class="content-grid">
+
+                <!-- CATEGORY BREAKDOWN -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Category Breakdown</h3>
+                            <p>Where your money goes</p>
+                        </div>
+                    </div>
+
+                    <div id="categoryBreakdown" class="category-list">
+                        <p class="empty-message">No expenses recorded yet.</p>
+                    </div>
+                </div>
+
+                <!-- MONTHLY SPENDING CHART -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Spending Overview</h3>
+                            <p>Monthly expense summary</p>
+                        </div>
+                    </div>
+
+                    <div id="monthlyChart" class="chart">
+                        <p class="empty-message">Add expenses to see your chart.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- RECENT TRANSACTIONS -->
+            <section class="panel transactions-panel" id="transactions">
+
+                <div class="panel-heading transaction-heading">
+                    <div>
+                        <h3>Recent Transactions</h3>
+                        <p>Manage your expenses</p>
+                    </div>
+
+                    <div class="controls">
+                        <input
+                            type="number"
+                            id="searchInput"
+                            placeholder="Search by ID"
+                        >
+
+                        <select id="sortSelect">
+                            <option value="newest">Newest first</option>
+                            <option value="oldest">Oldest first</option>
+                            <option value="high">Highest amount</option>
+                            <option value="low">Lowest amount</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Expense</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="expenseTable">
+                            <tr>
+                                <td colspan="6" class="empty-message">
+                                    No expenses found.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <span id="resultCount">0 transactions</span>
+                    <button class="secondary-btn" id="clearSearchBtn">
+                        Clear Search
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- FOOTER -->
+            <footer>
+                Pennywise © 2026 · Personal Expense Tracker
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- ADD EXPENSE MODAL -->
+    <div class="modal-overlay" id="expenseModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+                <div>
+                    <h2>Add New Expense</h2>
+                    <p>Enter your transaction details.</p>
+                </div>
+
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+
+            <form id="expenseForm">
+
+                <label for="expenseTitle">Expense Name</label>
+                <input
+                    type="text"
+                    id="expenseTitle"
+                    placeholder="e.g. Groceries"
+                    required
+                >
+
+                <label for="expenseCategory">Category</label>
+                <select id="expenseCategory" required>
+                    <option value="">Select category</option>
+                    <option value="Food">Food</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Education">Education</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="expenseAmount">Amount (₹)</label>
+                <input
+                    type="number"
+                    id="expenseAmount"
+                    placeholder="Enter amount"
+                    min="0.01"
+                    step="0.01"
+                    required
+                >
+
+                <label for="expenseDate">Date</label>
+                <input
+                    type="date"
+                    id="expenseDate"
+                    required
+                >
+
+                <label for="expenseDescription">Description</label>
+                <textarea
+                    id="expenseDescription"
+                    placeholder="Optional details"
+                    rows="3"
+                ></textarea>
+
+                <button type="submit" class="primary-btn submit-btn">
+                    Save Expense
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+</html>
